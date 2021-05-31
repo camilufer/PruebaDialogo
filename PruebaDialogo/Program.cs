@@ -239,7 +239,7 @@ namespace PruebaDialogo
                                 SqlCommand cmdUpdateParametros = new SqlCommand("Update Vehiculo set estado = 0 where patente = @patente", cnn);
                                 cmdUpdateParametros.Parameters.Add("patente", System.Data.SqlDbType.VarChar).Value = vehiculo[selecVehiculo, 0];
                                 cmdUpdateParametros.ExecuteNonQuery();
-                                Console.WriteLine(" Arriendo realizado correctamente para el cliente " + cliente[Int32.Parse(nCliente)] + " Vehiculo patente: " + vehiculo[selecVehiculo, 0]);
+                                Console.WriteLine(" Arriendo realizado correctamente para el cliente con RUT N°: " + cliente[Int32.Parse(nCliente)] + " Vehiculo patente: " + vehiculo[selecVehiculo, 0]);
                             } else {
                                 Console.Write("Numero vehiculo no válido");
                             }
@@ -288,7 +288,7 @@ namespace PruebaDialogo
                     //Asignación de valores al objeto bajo referencia de memoria
                     while (dr.Read()) {
                         Console.WriteLine("Arriendo");
-                        Console.WriteLine(count +1 + ") ID ARRIENDO: " + dr["id_arriendo"].ToString() + ") FECHA INICIO: " + dr["fecha_inicio"].ToString() + ") DIAS: " + dr["dias"].ToString() + ") TOTAL ARRIENDO: " + dr["total_arriendo"].ToString() + ") FECHA DEVOLUCION: " + dr["fecha_devolucion"].ToString() + ") RUT CLIENTE: " + dr["cliente_rut"].ToString() + ") PATENTE VEHICULO: " + dr["vehiculo_patente"].ToString() + ") NOMBRE USUARIO: " + dr["usuario_nombre"].ToString());
+                        Console.WriteLine(count +1 + ") ID ARRIENDO: " + dr["id_arriendo"].ToString() + " FECHA INICIO: " + dr["fecha_inicio"].ToString() + " DIAS: " + dr["dias"].ToString() + " TOTAL ARRIENDO: " + dr["total_arriendo"].ToString() + " FECHA DEVOLUCION: " + dr["fecha_devolucion"].ToString() + " RUT CLIENTE: " + dr["cliente_rut"].ToString() + " PATENTE VEHICULO: " + dr["vehiculo_patente"].ToString() + " NOMBRE USUARIO: " + dr["usuario_nombre"].ToString());
                         arriendo[count, 0] = Int32.Parse(dr["id_arriendo"].ToString());
                         arriendo[count, 1] = Int32.Parse(dr["dias"].ToString());
                         count++;
@@ -301,6 +301,8 @@ namespace PruebaDialogo
                     Console.Write("Ingresar nueva cantidad de días: ");
                     string nDias = Console.ReadLine();
                     int selectDias = Int32.Parse(nDias);
+                    int suma = (int)arriendo[selectArriendo, 1] + selectDias;
+
                     if (Int32.Parse(nArriendo) <= count && selectDias > 0) {
                         SqlCommand cmdUpdateParametros = new SqlCommand("Update Arriendo set dias = @dias where id_arriendo = @id_arriendo", cnn);
                         cmdUpdateParametros.Parameters.Add("dias", System.Data.SqlDbType.Int).Value = (int)arriendo[selectArriendo, 1] + selectDias;
@@ -308,7 +310,7 @@ namespace PruebaDialogo
                         cmdUpdateParametros.ExecuteNonQuery();
                         Console.WriteLine("Dias anteriores " + (int)arriendo[selectArriendo, 1] );
                         Console.WriteLine("Dias a agregar " + selectDias);
-                        Console.WriteLine("Dias totales " + (int)arriendo[selectArriendo, 1] + selectDias);
+                        Console.WriteLine("Dias totales " + suma);
                     }
                 }
             }
